@@ -66,6 +66,8 @@ class LogInPageState extends State<LogInPage> {
                   onPressed: () {
                     print("Email: " + emailController.text);
                     print("password: " + passwordController.text);
+
+                    Navigator.pushReplacementNamed(context, '/todolist');
                   },
                   child: Text("Log In")),
               SizedBox(
@@ -77,10 +79,7 @@ class LogInPageState extends State<LogInPage> {
                   Text("If you don't have account yet"),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SignUpPage()));
+                        Navigator.pushNamed(context, '/signup');
                       },
                       child: Text("SignUp"))
                 ],

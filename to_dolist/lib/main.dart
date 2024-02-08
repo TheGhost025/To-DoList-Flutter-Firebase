@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_dolist/logIn.dart';
+import 'package:to_dolist/signup.dart';
+import 'package:to_dolist/todolist.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +21,12 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: LogInPage(),
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => LogInPage(),
+        '/signup': (context) => SignUpPage(),
+        '/todolist': (context) => ToDoListPage(),
+      },
     );
   }
 }
