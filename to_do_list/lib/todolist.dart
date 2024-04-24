@@ -12,6 +12,12 @@ class ToDoListPageState extends State<ToDoListPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  // Function to handle logout
+  void logout() async {
+    await _auth.signOut();
+    Navigator.pushReplacementNamed(context, '/login');
+  }
+
   void addTask(BuildContext context) async {
     String newToDoList = "";
 
@@ -108,6 +114,7 @@ class ToDoListPageState extends State<ToDoListPage> {
     User? user = _auth.currentUser;
 
     if (user == null) {
+      Navigator.pushReplacementNamed(context, '/login');
       // Handle the case where the user is not logged in
       return Scaffold(
         body: Center(
@@ -120,6 +127,12 @@ class ToDoListPageState extends State<ToDoListPage> {
       appBar: AppBar(
         title: Text("To-Do List"),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: logout,
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -149,11 +162,15 @@ class ToDoListPageState extends State<ToDoListPage> {
                         return Dismissible(
                           key: Key(todos[index]),
                           direction: DismissDirection.endToStart,
-                          background: Container(
-                            alignment: Alignment.centerRight,
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            color: Colors.red,
-                            child: Icon(Icons.delete, color: Colors.white),
+                          background: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                8), // Adjust the radius as needed
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              color: Colors.red,
+                              child: Icon(Icons.delete, color: Colors.white),
+                            ),
                           ),
                           confirmDismiss: (direction) async {
                             return await confirmDelete(context);
